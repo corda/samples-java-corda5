@@ -14,7 +14,6 @@ Flow #1 input:
   } 
 }
 ```
-7bd66011-ffe4-4e97-919c-75a362ba6f84
 
 Flow #2 input:
 ```json
@@ -44,8 +43,4 @@ Flow #3 input: (The voucherID need to be retrieved from flow #2's output. Use th
 How to shut down the app
 ```
 corda-cli network terminate -n missionmars-network -ry
-```
-
-```
-./gradlew clean build cpb && corda-cli package install -n missionmars-network  **/build/libs/*.cpk
 ```
