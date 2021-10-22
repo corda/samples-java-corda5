@@ -1,0 +1,42 @@
+plugins {
+    id 'java'
+    id 'net.corda.plugins.cordapp-cpk'
+}
+cordapp {
+    targetPlatformVersion 1000
+    minimumPlatformVersion 999
+    workflow {
+        name = 'corda5-missionmars-Workflow'
+        versionId = 1
+        licence = 'Test-Licence'
+        vendor = 'R3'
+    }
+}
+
+dependencies {
+    cordaProvided "net.corda:corda-application:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-crypto-api:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-legacy-api:$cordaAPIVersion"
+
+    cordapp "net.corda:corda-flows:$cordaAPIVersion"
+    cordapp project(':contracts')
+
+    testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+
+    testImplementation "net.corda:corda-flow-test-utils:$cordaAPIVersion"
+    testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testImplementation "org.assertj:assertj-core:$assertJVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
+
+    testImplementation "org.mockito:mockito-core:2.28.+"
+    testImplementation("com.nhaarman:mockito-kotlin:1.6.0") {
+        exclude group: "mockito-core"
+    }
+
+    testImplementation "org.mockito:mockito-core:3.+"
+    testImplementation "org.mockito:mockito-inline:3.+"
+}
+
+tasks.named('jar', Jar) {
+    archiveBaseName = 'corda5-missionmars-workflows'
+}

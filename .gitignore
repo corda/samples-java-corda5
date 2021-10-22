@@ -1,0 +1,15 @@
+.DS_Store
+.gradle/
+.idea
+**/build/
+**/bin/
+*/.gradle/
+*/.idea/*
+**/.vscode/*
+**/out/
+&&/node_modules/
+**/logs/
+corda-nodeinfo/corda-nodeinfo.iml
+*~*
+**/*.cpb
+**/docker-compose.yaml

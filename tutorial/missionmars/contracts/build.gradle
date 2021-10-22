@@ -1,0 +1,24 @@
+plugins {
+    id 'java'
+    id 'net.corda.plugins.cordapp-cpk'
+}
+
+cordapp {
+    targetPlatformVersion 1000
+    minimumPlatformVersion 999
+    contract {
+        name "corda5-missionmars-Contracts"
+        versionId 1
+        vendor "R3"
+    }
+}
+
+dependencies {
+    cordaProvided "net.corda:corda-persistence:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-application:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-ledger:$cordaAPIVersion"
+}
+
+tasks.named('jar', Jar) {
+    archiveBaseName = 'corda5-missionmars-contracts'
+}

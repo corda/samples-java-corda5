@@ -1,0 +1,22 @@
+registry: engineering-docker.software.r3.com
+
+nodes:
+  PartyA:
+    debug: true
+    x500: "C=GB, L=London, O=Mars Express, OU=LLC"
+    users:
+      user1:
+        password: test
+      angelenos:
+        password: password
+        permissions: [ "ALL" ]
+  PartyB:
+    x500: "C=US, L=New York, O=Peter, OU=INC"
+    users:
+      user1:
+        password: test
+      londoner:
+        password: password
+        permissions: [ "ALL" ]
+  notary:
+    notary: true
