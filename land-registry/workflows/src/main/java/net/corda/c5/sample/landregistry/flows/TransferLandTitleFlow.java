@@ -54,9 +54,6 @@ public class TransferLandTitleFlow implements Flow<SignedTransactionDigest> {
     private IdentityService identityService;
 
     @CordaInject
-    private NotaryLookupService notaryLookupService;
-
-    @CordaInject
     private JsonMarshallingService jsonMarshallingService;
 
     @CordaInject
@@ -65,8 +62,6 @@ public class TransferLandTitleFlow implements Flow<SignedTransactionDigest> {
     @Override
     @Suspendable
     public SignedTransactionDigest call() {
-
-        Party notary = notaryLookupService.getNotaryIdentities().get(0);
 
         Map<String, String> parametersMap = jsonMarshallingService.parseJson(params.getParametersInJson(), Map.class);
         if(parametersMap.get("plotNumber") == null)
