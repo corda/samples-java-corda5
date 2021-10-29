@@ -22,7 +22,7 @@ Flow #2 input:
     "clientId": "launchpad-3", 
     "flowName": "net.corda.missionMars.flows.CreateBoardingTicket$CreateBoardingTicketInitiator", 
     "parameters": { 
-      "parametersInJson": "{\"ticketDescription\": \"Space Shuttle 323 - Seat 16B\", \"daysTillLaunch\": \"10\"}" 
+      "parametersInJson": "{\"ticketDescription\": \"Space Shuttle 323 - Seat 16B\", \"daysUntilLaunch\": \"10\"}" 
     } 
   } 
 }

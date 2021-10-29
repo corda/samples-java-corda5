@@ -24,7 +24,7 @@ public class BoardingTicketContract implements Contract {
             requireThat(require -> {
                 require.using("This transaction should only output one BoardingTicket state", tx.getOutputs().size() == 1);
                 require.using("The output BoardingTicket state should have clear description of space trip information", !(output.getDescription().equals("")));
-                require.using("The output BoardingTicket state should have a launching date later then the creation time", (output.getDaysTillLaunch() > 0));
+                require.using("The output BoardingTicket state should have a launching date later then the creation time", (output.getdaysUntilLaunch() > 0));
                 return null;
             });
         }else if(commandData instanceof BoardingTicketContract.Commands.RedeemTicket) {
@@ -32,7 +32,7 @@ public class BoardingTicketContract implements Contract {
             requireThat(require -> {
                 require.using("This transaction should consume two states", tx.getInputStates().size() == 2);
                 require.using("The issuer of the BoardingTicket should be the space company which creates the boarding ticket", input.getIssuer().equals(output.getMarsExpress()));
-                require.using("The output BoardingTicket state should have a launching date later then the creation time", (output.getDaysTillLaunch() > 0));
+                require.using("The output BoardingTicket state should have a launching date later then the creation time", (output.getdaysUntilLaunch() > 0));
                 return null;
             });
         }

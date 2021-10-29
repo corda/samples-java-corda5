@@ -18,33 +18,33 @@ public class BoardingTicket implements ContractState, JsonRepresentable {
     private String description;
     private Party marsExpress;
     private Party owner;
-    private int daysTillLaunch;
+    private int daysUntilLaunch;
 
     //Constructors
     @ConstructorForDeserialization
-    public BoardingTicket(String description, Party marsExpress, Party owner, int daysTillLaunch) {
+    public BoardingTicket(String description, Party marsExpress, Party owner, int daysUntilLaunch) {
         this.description = description;
         this.marsExpress = marsExpress;
         this.owner = owner;
-        this.daysTillLaunch = daysTillLaunch;
+        this.daysUntilLaunch = daysUntilLaunch;
     }
 
-    public BoardingTicket(String description, Party marsExpress, int daysTillLaunch) {
+    public BoardingTicket(String description, Party marsExpress, int daysUntilLaunch) {
         this.description = description;
         this.marsExpress = marsExpress;
         this.owner = marsExpress;
-        this.daysTillLaunch = daysTillLaunch;
+        this.daysUntilLaunch = daysUntilLaunch;
     }
 
     //Getters
     public String getDescription() {return description;}
     public Party getMarsExpress() {return marsExpress;}
     public Party getOwner() {return owner;}
-    public int getDaysTillLaunch() {return daysTillLaunch;}
+    public int getdaysUntilLaunch() {return daysUntilLaunch;}
 
     //helper method
     public BoardingTicket changeOwner(Party owner){
-        BoardingTicket newOwnerState = new BoardingTicket(this.description,this.marsExpress,owner,this.daysTillLaunch);
+        BoardingTicket newOwnerState = new BoardingTicket(this.description,this.marsExpress,owner,this.daysUntilLaunch);
         return newOwnerState;
     }
 
@@ -54,7 +54,7 @@ public class BoardingTicket implements ContractState, JsonRepresentable {
         return "description : " + this.description +
                 " marsExpress : " + this.marsExpress.getName().toString() +
                 " owner : " + this.owner.getName().toString() +
-                " daysTillLaunch : " + Integer.toString(this.daysTillLaunch);
+                " daysUntilLaunch : " + Integer.toString(this.daysUntilLaunch);
     }
 
     @NotNull

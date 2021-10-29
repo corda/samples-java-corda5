@@ -66,15 +66,15 @@ public class CreateBoardingTicket {
             else
                 ticketDescription = parametersMap.get("ticketDescription");
 
-            int daysTillLaunch;
-            if(!parametersMap.containsKey("daysTillLaunch"))
-                throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"daysTillLaunch\" missing.");
+            int daysUntilLaunch;
+            if(!parametersMap.containsKey("daysUntilLaunch"))
+                throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"daysUntilLaunch\" missing.");
             else
-                daysTillLaunch = Integer.parseInt(parametersMap.get("daysTillLaunch"));
+                daysUntilLaunch = Integer.parseInt(parametersMap.get("daysUntilLaunch"));
 
             //Building the output MarsVoucher state
             Party marsExpress = flowIdentity.getOurIdentity();
-            BoardingTicket ticket = new BoardingTicket(ticketDescription,marsExpress,daysTillLaunch);
+            BoardingTicket ticket = new BoardingTicket(ticketDescription,marsExpress,daysUntilLaunch);
 
             //Build transaction
             TransactionBuilder transactionBuilder = transactionBuilderFactory.create()
