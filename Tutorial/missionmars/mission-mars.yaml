@@ -1,5 +1,3 @@
-registry: engineering-docker.software.r3.com
-
 nodes:
   PartyA:
     debug: true
