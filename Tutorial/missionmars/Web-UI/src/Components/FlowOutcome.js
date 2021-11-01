@@ -19,10 +19,10 @@ const FlowOutcome = () => {
     const status = response.data.status;
     if (status === "COMPLETED") {
       const resultJson = JSON.parse(response.data.resultJson);
-      const info = JSON.parse(resultJson.outputStates[0]);
+      const info = resultJson.outputStates[0];
       setFlowOutcome({
         status,
-        ...info,
+        info: info,
       });
     } else {
       const { message } = response.data.exceptionDigest;

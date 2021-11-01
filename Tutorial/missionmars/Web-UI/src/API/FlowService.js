@@ -54,9 +54,10 @@ const createBoardingTicket = async (ticketDesc, daysUntilLaunch) => {
     const response = await axios.post(`flowstarter/startflow`, {
       rpcStartFlowRequest: {
         clientId: launchPadNumber,
-        flowName: "net.corda.missionMars.flows.CreateBoardingTicket$CreateBoardingTicketInitiator",
+        flowName:
+          "net.corda.missionMars.flows.CreateBoardingTicket$CreateBoardingTicketInitiator",
         parameters: {
-          parametersInJson: `{"ticketDescription": "${ticketDesc}", "daysUntilLaunch": "${daysUntilLaunch}"}`,
+          parametersInJson: `{"ticketDescription": "${ticketDesc}", "daysTillLaunch": "${daysUntilLaunch}"}`,
         },
       },
     });
