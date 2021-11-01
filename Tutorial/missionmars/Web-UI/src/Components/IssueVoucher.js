@@ -45,7 +45,8 @@ const IssueVoucher = ({ setLoading }) => {
           setVoucherIssued(true);
           const resultJson = JSON.parse(res.data.resultJson);
           const outputStates = resultJson.outputStates[0];
-          setVoucherId(outputStates.split("linearId:")[1]);
+          console.log(outputStates);
+          setVoucherId(outputStates.split("linearId: ")[1]);
         }
 
         setFlowStatus(flowOutcomeStatus);
