@@ -8,7 +8,7 @@ This repository contains multiple sample apps, from CorDapps that help you get s
 
 If you are new to Corda and/or would like to learn all of the fundamentals in a guided and incremental manner please visit our [documentation](https://docs.r3.com/) site. 
 
-You can find the exact same set of Corda 5 CorDapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin).
+You can find the exact same set of Corda 5 CorDapp demonstration in Kotlin language at [link](https://github.com/corda/samples-kotlin-corda5).
 
 ## Directories
 The samples are divided into sections with the following desciption:
