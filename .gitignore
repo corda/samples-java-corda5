@@ -7,7 +7,7 @@
 */.idea/*
 **/.vscode/*
 **/out/
-&&/node_modules/
+/Tutorial/missionmars/Web-UI/node_modules/
 **/logs/
 corda-nodeinfo/corda-nodeinfo.iml
 *~*
