@@ -1,6 +1,6 @@
 # Corda5 Tutorial Cordapp: Mission Mars
 
-Please refer to the documentation for detail walk through of developing and running this App at [here](https://docs.r3.com/en/platform/corda/5.0-dev-preview-1/tutorials/building-cordapp/c5-basic-cordapp-intro.html)
+Please refer to the documentation for a detailed walk through of developing and running this App [here](https://docs.r3.com/en/platform/corda/5.0-dev-preview-1/tutorials/building-cordapp/c5-basic-cordapp-intro.html)
 
 Flow #1 input:
 ```json
@@ -27,7 +27,7 @@ Flow #2 input:
   } 
 }
 ```
-Flow #3 input: (The voucherID need to be retrieved from flow #2's output. Use the /flowstarter/flowoutcomeforclientid/{clientid} method, and input [launchpad-3])
+Flow #3 input: (The voucherID needs to be retrieved from flow #2's output. Use the /flowstarter/flowoutcomeforclientid/{clientid} method, and input [launchpad-3])
 ```json
 {
   "rpcStartFlowRequest": {

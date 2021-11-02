@@ -4,7 +4,7 @@ echo "--Step 1: Building projects."
 ./gradlew clean build
 
 echo "--Step 2: Creating cpb file."
-cordapp-builder create --cpk contracts/build/libs/corda5-missionmars-contracts-1.0-cordapp.cpk --cpk workflows/build/libs/corda5-missionmars-workflows-1.0-cordapp.cpk -o missionMars.cpb
+cordapp-builder create --cpk contracts/build/libs/corda5-missionmars-contracts-1.0-SNAPSHOT-cordapp.cpk --cpk workflows/build/libs/corda5-missionmars-workflows-1.0-SNAPSHOT-cordapp.cpk -o missionMars.cpb
 
 echo "--Step 3: Configure the network"
 corda-cli network config docker-compose missionmars-network

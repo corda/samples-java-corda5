@@ -6,7 +6,7 @@ plugins {
 allprojects {
     apply plugin: 'java'
     group = 'com.r3.devrel'
-    version = '1.0'
+    version = '1.0-SNAPSHOT'
 
     tasks.withType(JavaCompile) {
         options.compilerArgs << "-parameters"
