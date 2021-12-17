@@ -66,7 +66,7 @@ Lets test if you have successfully logged in by go to the RegistedFlows
 You should expect a 200 success callback code, and a response body of such: 
 ```
 [
-  "net.corda.c5template.flows.TemplateFlow"
+  "net.corda.c5template.flows.CreateCartFlow"
 ]
 ```
 
@@ -76,9 +76,9 @@ in the request body put in:
 {
   "rpcStartFlowRequest": {
     "clientId": "launchpad-2", 
-    "flowName": "net.corda.c5template.flows.TemplateFlow", 
+    "flowName": "net.corda.c5template.flows.CreateCartFlow", 
     "parameters": { 
-      "parametersInJson": "{\"msg\": \"Hello-World\", \"receiver\": \"C=GB, L=London, O=PartyB, OU=INC\"}" 
+      "parametersInJson": "{\"cartName\": \"cart1\", \"itemName\": \"ietm1\",\"itemId\": \"12\", \"cost\": \"100\",\"buyer\": \"C=GB, L=London, O=PartyB, OU=INC\"}" 
     } 
   } 
 }
