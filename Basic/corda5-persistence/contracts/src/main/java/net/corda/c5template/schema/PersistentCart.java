@@ -14,7 +14,7 @@ public class PersistentCart extends PersistentState implements Serializable {
     @Column
     private String name;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @OneToMany(cascade = CascadeType.PERSIST, fetch = FetchType.EAGER)
     @JoinColumns({
             @JoinColumn(name = "output_index", referencedColumnName = "output_index"),
             @JoinColumn(name = "transaction_id", referencedColumnName = "transaction_id"),
