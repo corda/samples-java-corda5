@@ -62,6 +62,10 @@ public class FindAllItemsByCartName implements Flow<List<String>> {
             accumulator.addAll(poll.getValues());
         } while (!poll.isLastResult());
 
+        System.out.println("Size of result : " + accumulator.size());
+        System.out.println("Name: " + accumulator.get(0) != null ?accumulator.get(0).getName() : 0);
+        System.out.println("User details: " + accumulator.get(0) != null ?(accumulator.get(0).getUser() !=null ? accumulator.get(0).getUser().getName() : 0) : 0);
+
         return accumulator.stream()
                 .map(message -> jsonMarshallingService.formatJson("helloooo - "))
                 .collect(Collectors.toList());

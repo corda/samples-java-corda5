@@ -8,7 +8,7 @@ import java.util.Arrays;
 public class CartSchemaV1 extends MappedSchema {
 
     public CartSchemaV1() {
-        super(CartSchema.class, 1, Arrays.asList(PersistentCart.class, PersistentItem.class));
+        super(CartSchema.class, 1, Arrays.asList(PersistentCart.class, PersistentUser.class));
     }
 
     @Nullable

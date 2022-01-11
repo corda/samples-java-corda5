@@ -2,7 +2,7 @@ package net.corda.c5template.flows;
 
 import net.corda.c5template.contracts.CartContract;
 import net.corda.c5template.states.CartState;
-import net.corda.c5template.states.Item;
+import net.corda.c5template.states.User;
 import net.corda.systemflows.CollectSignaturesFlow;
 import net.corda.systemflows.FinalityFlow;
 import net.corda.v5.application.flows.*;
@@ -64,9 +64,8 @@ public class CreateCartFlow implements Flow<SignedTransactionDigest> {
     public SignedTransactionDigest call() {
         Map<String, String> parametersMap = jsonMarshallingService.parseJson(params.getParametersInJson(), Map.class);
         String cartName;
-        String itemName;
-        String itemId;
-        Integer cost;
+        String userName;
+        String userId;
         CordaX500Name buyer;
 
         if (!parametersMap.containsKey("cartName"))
@@ -74,20 +73,15 @@ public class CreateCartFlow implements Flow<SignedTransactionDigest> {
         else
             cartName = parametersMap.get("cartName");
 
-        if (!parametersMap.containsKey("itemName"))
+        if (!parametersMap.containsKey("userName"))
             throw new BadRpcStartFlowRequestException("Parameter \"itemName\" missing.");
         else
-            itemName = parametersMap.get("itemName");
+            userName = parametersMap.get("userName");
 
-        if (!parametersMap.containsKey("itemId"))
+        if (!parametersMap.containsKey("userId"))
             throw new BadRpcStartFlowRequestException("Parameter \"itemId\" missing.");
         else
-            itemId = parametersMap.get("itemId");
-
-        if (!parametersMap.containsKey("cost"))
-            throw new BadRpcStartFlowRequestException("Parameter \"cost\" missing.");
-        else
-            cost = Integer.getInteger(parametersMap.get("cost"));
+            userId = parametersMap.get("userId");
 
         if (!parametersMap.containsKey("buyer"))
             throw new BadRpcStartFlowRequestException("Parameter \"buyer\" missing.");
@@ -102,7 +96,7 @@ public class CreateCartFlow implements Flow<SignedTransactionDigest> {
         Party sellerParty = flowIdentity.getOurIdentity();
 
         CartState cartState = new CartState(cartName,
-                Arrays.asList(new Item(itemId, itemName, cost)), buyerParty, sellerParty);
+                new User(userId, userName), buyerParty, sellerParty);
 
         final Command<CartContract.Commands.Create> txCommand = new Command<>(
                 new CartContract.Commands.Create(),

@@ -3,7 +3,7 @@ package net.corda.c5template.states;
 import net.corda.c5template.contracts.CartContract;
 import net.corda.c5template.schema.CartSchemaV1;
 import net.corda.c5template.schema.PersistentCart;
-import net.corda.c5template.schema.PersistentItem;
+import net.corda.c5template.schema.PersistentUser;
 import net.corda.v5.application.identity.AbstractParty;
 import net.corda.v5.application.identity.Party;
 import net.corda.v5.application.utilities.JsonRepresentable;
@@ -22,14 +22,14 @@ import java.util.List;
 @CordaSerializable
 public class CartState implements QueryableState, JsonRepresentable {
     private String name;
-    private List<Item> items;
+    private User user;
     private Party buyer;
     private Party seller;
 
     @ConstructorForDeserialization
-    public CartState(String name, List<Item> items, Party buyer, Party seller) {
+    public CartState(String name, User user, Party buyer, Party seller) {
         this.name = name;
-        this.items = items;
+        this.user = user;
         this.buyer = buyer;
         this.seller = seller;
     }
@@ -42,12 +42,12 @@ public class CartState implements QueryableState, JsonRepresentable {
         this.name = name;
     }
 
-    public List<Item> getItems() {
-        return items;
+    public User getUser() {
+        return user;
     }
 
-    public void setItems(List<Item> items) {
-        this.items = items;
+    public void setUser(User user) {
+        this.user = user;
     }
 
     public Party getBuyer() {
@@ -76,14 +76,7 @@ public class CartState implements QueryableState, JsonRepresentable {
     @Override
     public PersistentState generateMappedObject(@NotNull MappedSchema schema) {
         if (schema instanceof CartSchemaV1) {
-            List<PersistentItem> persistentItems = Arrays.asList();
-            for(Item item : getItems()) {
-                PersistentItem persistentItem = new PersistentItem(item.getItemNumber(), item.getName(),
-                        item.getCost());
-                persistentItems.add(persistentItem);
-            }
-
-            return new PersistentCart(name, persistentItems);
+            return new PersistentCart(name, new PersistentUser(getUser().getUserId(), getUser().getName()));
         } else {
             throw new IllegalArgumentException("Unrecognised schema $schema");
         }

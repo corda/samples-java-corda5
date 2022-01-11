@@ -7,8 +7,8 @@
         <createTable tableName="cart">
             <column name="output_index" type="INT"/>
             <column name="transaction_id" type="NVARCHAR(128)"/>
-            <column name="linearId" type="NVARCHAR(128)"/>
             <column name="name" type="NVARCHAR(255)"/>
+            <column name="userId" type="NVARCHAR(64)"/>
         </createTable>
     </changeSet>
 </databaseChangeLog>
