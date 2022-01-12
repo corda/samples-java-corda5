@@ -8,6 +8,7 @@ nodes:
       angelenos:
         password: password
         permissions: [ "ALL" ]
+
   PartyB:
     x500: "C=US, L=New York, O=Peter, OU=INC"
     users:
@@ -16,5 +17,15 @@ nodes:
       londoner:
         password: password
         permissions: [ "ALL" ]
+
+  PartyC:
+    x500: "C=US, L=San Diego, O=Friend, OU=LLC"
+    users:
+      user1:
+        password: test
+      newyorker:
+        password: password
+        permissions: [ "ALL" ]
+
   notary:
     notary: true

@@ -27,6 +27,13 @@ public class MarsVoucher implements LinearState, JsonRepresentable {
         this.linearId = linearId;
     }
 
+    //helper method
+    public MarsVoucher changeOwner(Party holder){
+        MarsVoucher newOwnerState = new MarsVoucher(this.voucherDesc,this.issuer,holder,this.linearId);
+        return newOwnerState;
+    }
+
+
     //getters
     public String getVoucherDesc() { return voucherDesc; }
     public Party getIssuer() { return issuer; }

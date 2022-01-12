@@ -40,3 +40,7 @@ dependencies {
 tasks.named('jar', Jar) {
     archiveBaseName = 'corda5-missionmars-workflows'
 }
+
+clean.doFirst {
+    delete "${rootDir}/missionMars.cpb"
+}

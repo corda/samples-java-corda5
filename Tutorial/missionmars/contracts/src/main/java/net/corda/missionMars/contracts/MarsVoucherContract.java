@@ -26,6 +26,17 @@ public class MarsVoucherContract implements Contract {
                 require.using("The output MarsVoucher state should have clear description of the type of Space trip information", !(output.getVoucherDesc().equals("")));
                 return null;
             });
+        }else if(commandData instanceof MarsVoucherContract.Commands.Transfer){
+            //Retrieve the output state of the transaction
+            MarsVoucher output = tx.outputsOfType(MarsVoucher.class).get(0);
+            MarsVoucher input = tx.inputsOfType(MarsVoucher.class).get(0);
+            requireThat(require -> {
+                require.using("You cannot gift the voucher to yourself", !(input.getHolder().equals(output.getHolder())));
+                return null;
+            });
+
+        }else if(commandData instanceof BoardingTicketContract.Commands.RedeemTicket){
+            //Transaction verification will happen in BoardingTicket Contract
         }
     }
 
@@ -33,5 +44,7 @@ public class MarsVoucherContract implements Contract {
     public interface Commands extends CommandData {
         //In our hello-world app, We will only have one command.
         class Issue implements MarsVoucherContract.Commands {}
+        class Transfer implements MarsVoucherContract.Commands {}
+
     }
 }
