@@ -31,6 +31,9 @@ public class LaunchProbeFlowTestJava {
             String inputParams = "{\"message\":\"Hey Mars\", \"planetaryOnly\":\"true\", \"target\":\"" +marsX500 + "\"}";
             flowMockHelper.createFlow( fmh -> new LaunchProbeFlowJava(new RpcStartFlowRequestParameters(inputParams)));
 
+            Mockito.doReturn(flowMockHelper.getNotary())
+                    .when(flowMockHelper.getFlow().getNotaryLookup())
+                    .getNotary(CordaX500Name.parse("O=notary, L=London, C=GB"));
 
             Mockito.doReturn(marsX500)
                     .when(flowMockHelper.getOtherSide())
