@@ -7,6 +7,7 @@ import net.corda.systemflows.FinalityFlow;
 import net.corda.v5.application.flows.*;
 import net.corda.v5.application.flows.flowservices.FlowEngine;
 import net.corda.v5.application.flows.flowservices.FlowIdentity;
+import net.corda.v5.application.identity.CordaX500Name;
 import net.corda.v5.application.identity.Party;
 import net.corda.v5.application.injection.CordaInject;
 import net.corda.v5.application.services.json.JsonMarshallingService;
@@ -54,7 +55,7 @@ public class CreateBoardingTicket {
         public SignedTransactionDigest call() {
 
             //Getting Notary
-            Party notary = notaryLookupService.getNotaryIdentities().get(0);
+            Party notary = notaryLookupService.getNotary(CordaX500Name.parse("O=notary, L=London, C=GB"));
 
             //Retrieve JSON params
             Map<String, String> parametersMap = jsonMarshallingService.parseJson(params.getParametersInJson(), Map.class);

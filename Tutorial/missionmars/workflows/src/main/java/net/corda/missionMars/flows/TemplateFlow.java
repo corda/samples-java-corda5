@@ -59,7 +59,7 @@ public class TemplateFlow implements Flow<SignedTransactionDigest> {
     @Suspendable
     public SignedTransactionDigest call() {
 
-        Party notary = notaryLookupService.getNotaryIdentities().get(0);
+        Party notary = notaryLookupService.getNotary(CordaX500Name.parse("O=notary, L=London, C=GB"));
 
         Map<String, String> parametersMap = jsonMarshallingService.parseJson(params.getParametersInJson(), Map.class);
 

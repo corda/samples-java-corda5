@@ -6,7 +6,7 @@ Flow #1 input:
 ```json
 {
   "rpcStartFlowRequest": {
-    "clientId": "launchpad-2", 
+    "clientId": "launchpad-1", 
     "flowName": "net.corda.missionMars.flows.CreateAndIssueMarsVoucher$CreateAndIssueMarsVoucherInitiator", 
     "parameters": { 
       "parametersInJson": "{\"voucherDesc\": \"Space Shuttle 323\", \"holder\": \"C=US, L=New York, O=Peter, OU=INC\"}" 
@@ -19,10 +19,23 @@ Flow #2 input:
 ```json
 {
   "rpcStartFlowRequest": {
-    "clientId": "launchpad-3", 
+    "clientId": "launchpad-2", 
     "flowName": "net.corda.missionMars.flows.CreateBoardingTicket$CreateBoardingTicketInitiator", 
     "parameters": { 
       "parametersInJson": "{\"ticketDescription\": \"Space Shuttle 323 - Seat 16B\", \"daysUntilLaunch\": \"10\"}" 
+    } 
+  } 
+}
+```
+01380f76-e2d8-4f3c-a102-cd41fa37e7e0
+[Optional]: If you would like gift the voucher to a different party, run this in PartyB's API interface
+```json
+{
+  "rpcStartFlowRequest": {
+    "clientId": "launchpad-3", 
+    "flowName": "net.corda.missionMars.flows.GiftVoucherToFriend$GiftVoucherToFriendInitiator", 
+    "parameters": {
+      "parametersInJson": "{\"voucherID\": \"01380f76-e2d8-4f3c-a102-cd41fa37e7e0\", \"holder\": \"C=US, L=San Diego, O=Friend, OU=LLC\"}"
     } 
   } 
 }
@@ -34,7 +47,7 @@ Flow #3 input: (The voucherID needs to be retrieved from flow #2's output. Use t
     "clientId": "launchpad-4", 
     "flowName": "net.corda.missionMars.flows.RedeemBoardingTicketWithVoucher$RedeemBoardingTicketWithVoucherInitiator", 
     "parameters": { 
-      "parametersInJson": "{\"voucherID\": \"40f6a581-d9ce-4047-8361-e5b0eace3dbf\", \"holder\": \"C=US, L=New York, O=Peter, OU=INC\"}" 
+      "parametersInJson": "{\"voucherID\": \"01380f76-e2d8-4f3c-a102-cd41fa37e7e0\", \"holder\": \"C=US, L=San Diego, O=Friend, OU=LLC\"}" 
     } 
   } 
 }

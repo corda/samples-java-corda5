@@ -70,9 +70,6 @@ public class RedeemBoardingTicketWithVoucher {
         @Suspendable
         public SignedTransactionDigest call() {
 
-            //Getting Notary
-            Party notary = notaryLookupService.getNotaryIdentities().get(0);
-
             //Retrieve JSON params
             Map<String, String> parametersMap = jsonMarshallingService.parseJson(params.getParametersInJson(), Map.class);
 
@@ -122,6 +119,9 @@ public class RedeemBoardingTicketWithVoucher {
 
             //Building the output
             BoardingTicket outputBoardingTicket = originalBoardingTicketState.changeOwner(recipientParty);
+
+            //Getting Notary
+            Party notary = boardingTicketStateAndRef.getState().getNotary();
 
             //Build transaction
             TransactionBuilder transactionBuilder = transactionBuilderFactory.create()
