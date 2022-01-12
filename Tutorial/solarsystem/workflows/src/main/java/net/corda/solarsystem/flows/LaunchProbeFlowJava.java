@@ -89,7 +89,8 @@ public class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
 
         Party recipientParty = identityService.partyFromName(target);
         if (recipientParty == null) throw new NoSuchElementException("No party found for X500 name " +target);
-        Party notary = notaryLookup.getNotaryIdentities().get(0);
+
+        Party notary = notaryLookup.getNotary(CordaX500Name.parse("O=notary, L=London, C=GB"));
 
         // Stage 1.
         // Generate an unsigned transaction.
@@ -138,6 +139,9 @@ public class LaunchProbeFlowJava implements Flow<SignedTransactionDigest> {
 
     public FlowEngine getFlowEngine() {
         return flowEngine;
+    }
+    public NotaryLookupService getNotaryLookup() {
+        return this.notaryLookup;
     }
 
     public IdentityService getIdentityService() {

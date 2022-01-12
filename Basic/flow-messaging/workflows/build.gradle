@@ -1,64 +1,22 @@
 plugins {
-    id 'net.corda.plugins.cordapp-cpb'
+    id 'java'
+    id 'net.corda.plugins.cordapp-cpk'
 }
-
-description 'Workflows'
-
 cordapp {
     targetPlatformVersion 1000
     minimumPlatformVersion 999
     workflow {
-        name "Corda 5 Solar System Flow Demo - Workflows"
-        versionId 1
-        vendor "R3"
-    }
-}
-
-// NOTE: integration tests could actually be in their own module
-sourceSets {
-    integrationTest {
-        kotlin {
-            srcDirs += "src/integrationTest/kotlin"
-        }
-        java {
-            srcDirs += "src/integrationTest/java"
-        }
-        resources {
-            srcDirs += "src/integrationTest/resources"
-        }
-        compileClasspath += main.output + test.output
-        runtimeClasspath += main.output + test.output
-    }
-}
-
-kotlin {
-    target {
-        java
-        compilations.integrationTest {
-            associateWith compilations.main
-            associateWith compilations.test
-
-            configurations {
-                integrationTestApi.extendsFrom testApi
-                integrationTestImplementation.extendsFrom testImplementation
-                integrationTestRuntimeOnly.extendsFrom testRuntimeOnly
-            }
-
-            tasks.register('integrationTest', Test) {
-                description = "Runs integration tests."
-                group = "verification"
-
-                testClassesDirs = project.sourceSets["integrationTest"].output.classesDirs
-                classpath = project.sourceSets["integrationTest"].runtimeClasspath
-            }
-        }
+        name = 'corda5-missionmars-Workflow'
+        versionId = 1
+        licence = 'Test-Licence'
+        vendor = 'R3'
     }
 }
 
 dependencies {
-    implementation "net.corda.kotlin:kotlin-stdlib-jdk8-osgi:$kotlinVersion"
-
     cordaProvided "net.corda:corda-application:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-crypto-api:$cordaAPIVersion"
+    cordaProvided "net.corda:corda-legacy-api:$cordaAPIVersion"
 
     cordapp "net.corda:corda-flows:$cordaAPIVersion"
     cordapp project(':contracts')
@@ -67,21 +25,17 @@ dependencies {
 
     testImplementation "net.corda:corda-flow-test-utils:$cordaAPIVersion"
     testImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
+    testImplementation "org.assertj:assertj-core:$assertJVersion"
+    testImplementation "io.mockk:mockk:$mockkVersion"
 
     testImplementation "org.mockito:mockito-core:2.28.+"
     testImplementation("com.nhaarman:mockito-kotlin:1.6.0") {
-        exclude group:"mockito-core"
+        exclude group: "mockito-core"
     }
 
     testImplementation "org.mockito:mockito-core:3.+"
     testImplementation "org.mockito:mockito-inline:3.+"
-
-    integrationTestImplementation "net.corda:corda-dev-network-lib:$cordaAPIVersion"
-    integrationTestImplementation "net.corda:corda-client-extensions-rpc:$cordaAPIVersion"
-    integrationTestImplementation "org.junit.jupiter:junit-jupiter:$junitVersion"
-    integrationTestImplementation "org.assertj:assertj-core:$assertJVersion"
 }
-
 tasks.named('jar', Jar) {
     archiveBaseName = 'corda5-solar-system-flow-demo-workflows'
 }
