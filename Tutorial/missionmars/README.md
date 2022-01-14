@@ -21,8 +21,8 @@ Flow #2 input:
   "rpcStartFlowRequest": {
     "clientId": "launchpad-2", 
     "flowName": "net.corda.missionMars.flows.CreateBoardingTicket$CreateBoardingTicketInitiator", 
-    "parameters": { 
-      "parametersInJson": "{\"ticketDescription\": \"Space Shuttle 323 - Seat 16B\", \"daysUntilLaunch\": \"10\"}" 
+    "parameters": {
+      "parametersInJson": "{\"ticketDescription\": \"Space Shuttle 323 - Seat 16B\", \"launchDate\": \"2023-11-02\"}"
     } 
   } 
 }
@@ -47,7 +47,7 @@ Flow #3 input: (The voucherID needs to be retrieved from flow #2's output. Use t
     "clientId": "launchpad-4", 
     "flowName": "net.corda.missionMars.flows.RedeemBoardingTicketWithVoucher$RedeemBoardingTicketWithVoucherInitiator", 
     "parameters": { 
-      "parametersInJson": "{\"voucherID\": \"01380f76-e2d8-4f3c-a102-cd41fa37e7e0\", \"holder\": \"C=US, L=San Diego, O=Friend, OU=LLC\"}" 
+      "parametersInJson": "{\"voucherID\": \"87cd2421-9182-42fc-8893-3781be1cd720\", \"holder\": \"C=US, L=San Diego, O=Friend, OU=LLC\"}" 
     } 
   } 
 }

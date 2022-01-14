@@ -19,6 +19,7 @@ import net.corda.v5.ledger.transactions.TransactionBuilder;
 import net.corda.v5.ledger.transactions.TransactionBuilderFactory;
 import net.corda.v5.legacyapi.flows.FlowLogic;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
@@ -67,21 +68,21 @@ public class CreateBoardingTicket {
             else
                 ticketDescription = parametersMap.get("ticketDescription");
 
-            int daysUntilLaunch;
-            if(!parametersMap.containsKey("daysUntilLaunch"))
-                throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"daysUntilLaunch\" missing.");
+            LocalDate launchDate;
+            if(!parametersMap.containsKey("launchDate"))
+                throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"launchDate\" missing.");
             else
-                daysUntilLaunch = Integer.parseInt(parametersMap.get("daysUntilLaunch"));
+                launchDate = LocalDate.parse(parametersMap.get("launchDate"));
 
             //Building the output MarsVoucher state
             Party marsExpress = flowIdentity.getOurIdentity();
-            BoardingTicket ticket = new BoardingTicket(ticketDescription,marsExpress,daysUntilLaunch);
+            BoardingTicket ticket = new BoardingTicket(ticketDescription,marsExpress,launchDate);
 
             //Build transaction
             TransactionBuilder transactionBuilder = transactionBuilderFactory.create()
                     .setNotary(notary)
                     .addOutputState(ticket, BoardingTicketContract.ID)
-                    .addCommand(new MarsVoucherContract.Commands.Issue(), Arrays.asList(marsExpress.getOwningKey()));
+                    .addCommand(new BoardingTicketContract.Commands.CreateTicket(), Arrays.asList(marsExpress.getOwningKey()));
 
             // Verify that the transaction is valid.
             transactionBuilder.verify();
