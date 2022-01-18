@@ -22,6 +22,14 @@ allprojects {
         }
     }
 
+    tasks.withType(Test).configureEach {
+        useJUnitPlatform()
+        reports {
+            junitXml.required = true
+        }
+    }
+
+
     pluginManager.withPlugin('org.jetbrains.kotlin.plugin.allopen') {
         allOpen {
             annotations(

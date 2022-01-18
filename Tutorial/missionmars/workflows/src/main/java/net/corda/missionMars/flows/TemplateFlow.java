@@ -8,12 +8,14 @@ import net.corda.v5.application.flows.*;
 import net.corda.v5.application.flows.flowservices.FlowEngine;
 import net.corda.v5.application.flows.flowservices.FlowIdentity;
 import net.corda.v5.application.flows.flowservices.FlowMessaging;
+import net.corda.v5.application.identity.AbstractParty;
 import net.corda.v5.application.identity.CordaX500Name;
 import net.corda.v5.application.identity.Party;
 import net.corda.v5.application.injection.CordaInject;
 import net.corda.v5.application.services.IdentityService;
 import net.corda.v5.application.services.json.JsonMarshallingService;
 import net.corda.v5.base.annotations.Suspendable;
+import net.corda.v5.ledger.contracts.Command;
 import net.corda.v5.ledger.services.NotaryLookupService;
 import net.corda.v5.ledger.transactions.SignedTransaction;
 import net.corda.v5.ledger.transactions.SignedTransactionDigest;
@@ -23,6 +25,7 @@ import net.corda.v5.ledger.transactions.TransactionBuilderFactory;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @InitiatingFlow
 @StartableByRPC
@@ -83,11 +86,13 @@ public class TemplateFlow implements Flow<SignedTransactionDigest> {
 
         // Stage 1.
         // Generate an unsigned transaction.
+        Command txCommand = new Command(new TemplateContract.Commands.Send(), Arrays.asList(sender.getOwningKey(), receiver.getOwningKey()));
         TransactionBuilder transactionBuilder = transactionBuilderFactory.create()
                 .setNotary(notary)
-                .addOutputState(templateState)
-                .addCommand(new TemplateContract.Commands.Send(), Arrays.asList(sender.getOwningKey(),
-                        receiver.getOwningKey()));
+                .addOutputState(templateState,TemplateContract.ID)
+                .addCommand(txCommand);
+                //.addCommand(new TemplateContract.Commands.Send(), Arrays.asList(sender.getOwningKey(),receiver.getOwningKey()));
+                //The commented out session is the code that will fail the Unit Test.
 
         // Stage 2.
         // Verify that the transaction is valid.
@@ -113,6 +118,21 @@ public class TemplateFlow implements Flow<SignedTransactionDigest> {
         return new SignedTransactionDigest(notarisedTx.getId(),
                 Collections.singletonList(jsonMarshallingService.formatJson(notarisedTx.getTx().getOutputStates().get(0))),
                 notarisedTx.getSigs());
+    }
+
+    public FlowEngine getFlowEngine() {
+        return flowEngine;
+    }
+    public NotaryLookupService getNotaryLookup() {
+        return this.notaryLookupService;
+    }
+
+    public IdentityService getIdentityService() {
+        return identityService;
+    }
+
+    public JsonMarshallingService getJsonMarshallingService() {
+        return jsonMarshallingService;
     }
 }
 
