@@ -7,6 +7,9 @@ import net.corda.v5.ledger.contracts.Contract;
 import net.corda.v5.ledger.transactions.LedgerTransaction;
 import org.jetbrains.annotations.NotNull;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 import static net.corda.v5.ledger.contracts.ContractsDSL.requireThat;
 
 public class BoardingTicketContract implements Contract {
@@ -24,7 +27,10 @@ public class BoardingTicketContract implements Contract {
             requireThat(require -> {
                 require.using("This transaction should only output one BoardingTicket state", tx.getOutputs().size() == 1);
                 require.using("The output BoardingTicket state should have clear description of space trip information", !(output.getDescription().equals("")));
-                require.using("The output BoardingTicket state should have a launching date later then the creation time", (output.getdaysUntilLaunch() > 0));
+                LocalDateTime current = LocalDateTime.now();
+                LocalDate today = LocalDate.of(current.getYear(),current.getMonth(),current.getDayOfMonth());
+                LocalDate launchDay = output.getlaunchDate();
+                require.using("The output BoardingTicket state should have a launching date later then the creation time", (launchDay.isAfter(today)));
                 return null;
             });
         }else if(commandData instanceof BoardingTicketContract.Commands.RedeemTicket) {
@@ -32,7 +38,10 @@ public class BoardingTicketContract implements Contract {
             requireThat(require -> {
                 require.using("This transaction should consume two states", tx.getInputStates().size() == 2);
                 require.using("The issuer of the BoardingTicket should be the space company which creates the boarding ticket", input.getIssuer().equals(output.getMarsExpress()));
-                require.using("The output BoardingTicket state should have a launching date later then the creation time", (output.getdaysUntilLaunch() > 0));
+                LocalDateTime current = LocalDateTime.now();
+                LocalDate today = LocalDate.of(current.getYear(),current.getMonth(),current.getDayOfMonth());
+                LocalDate launchDay = output.getlaunchDate();
+                require.using("The output BoardingTicket state should have a launching date later then the creation time", (launchDay.isAfter(today)));
                 return null;
             });
         }

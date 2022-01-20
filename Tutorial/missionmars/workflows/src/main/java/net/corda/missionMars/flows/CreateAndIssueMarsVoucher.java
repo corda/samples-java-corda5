@@ -18,6 +18,7 @@ import net.corda.v5.application.services.IdentityService;
 import net.corda.v5.application.services.json.JsonMarshallingService;
 import net.corda.v5.base.annotations.Suspendable;
 import net.corda.v5.ledger.UniqueIdentifier;
+import net.corda.v5.ledger.contracts.Command;
 import net.corda.v5.ledger.services.NotaryLookupService;
 import net.corda.v5.ledger.transactions.SignedTransaction;
 import net.corda.v5.ledger.transactions.SignedTransactionDigest;
@@ -34,7 +35,7 @@ public class CreateAndIssueMarsVoucher {
 
     @InitiatingFlow
     @StartableByRPC
-    public static class CreateAndIssueMarsVoucherInitiator extends FlowLogic<SignedTransactionDigest> {
+    public static class CreateAndIssueMarsVoucherInitiator implements Flow<SignedTransactionDigest> {
 
         //Node Injectables
         @CordaInject
@@ -89,13 +90,13 @@ public class CreateAndIssueMarsVoucher {
             //Building the output MarsVoucher state
             UniqueIdentifier uniqueID = new UniqueIdentifier();
             MarsVoucher newVoucher = new MarsVoucher(voucherDesc,issuer,holder,uniqueID);
+            Command txCommand = new Command(new MarsVoucherContract.Commands.Issue(), Arrays.asList(issuer.getOwningKey(), holder.getOwningKey()));
 
             //Build transaction
             TransactionBuilder transactionBuilder = transactionBuilderFactory.create()
                     .setNotary(notary)
                     .addOutputState(newVoucher,MarsVoucherContract.ID)
-                    .addCommand(new MarsVoucherContract.Commands.Issue(), Arrays.asList(issuer.getOwningKey(),
-                            holder.getOwningKey()));
+                    .addCommand(txCommand);
 
             // Verify that the transaction is valid.
             transactionBuilder.verify();
@@ -117,6 +118,21 @@ public class CreateAndIssueMarsVoucher {
             return new SignedTransactionDigest(notarisedTx.getId(),
                     Collections.singletonList(jsonMarshallingService.formatJson(notarisedTx.getTx().getOutputStates().get(0))),
                     notarisedTx.getSigs());
+        }
+        public FlowEngine getFlowEngine() {
+            return flowEngine;
+        }
+
+        public NotaryLookupService getNotaryLookup() {
+            return this.notaryLookupService;
+        }
+
+        public IdentityService getIdentityService() {
+            return identityService;
+        }
+
+        public JsonMarshallingService getJsonMarshallingService() {
+            return jsonMarshallingService;
         }
     }
 
@@ -153,5 +169,4 @@ public class CreateAndIssueMarsVoucher {
             }
         }
     }
-
 }

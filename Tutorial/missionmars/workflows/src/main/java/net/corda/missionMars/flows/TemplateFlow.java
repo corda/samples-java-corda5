@@ -91,8 +91,6 @@ public class TemplateFlow implements Flow<SignedTransactionDigest> {
                 .setNotary(notary)
                 .addOutputState(templateState,TemplateContract.ID)
                 .addCommand(txCommand);
-                //.addCommand(new TemplateContract.Commands.Send(), Arrays.asList(sender.getOwningKey(),receiver.getOwningKey()));
-                //The commented out session is the code that will fail the Unit Test.
 
         // Stage 2.
         // Verify that the transaction is valid.
