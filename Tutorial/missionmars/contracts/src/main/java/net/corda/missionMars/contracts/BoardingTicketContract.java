@@ -30,7 +30,7 @@ public class BoardingTicketContract implements Contract {
                 LocalDateTime current = LocalDateTime.now();
                 LocalDate today = LocalDate.of(current.getYear(),current.getMonth(),current.getDayOfMonth());
                 LocalDate launchDay = output.getlaunchDate();
-                require.using("The output BoardingTicket state should have a launching date later then the creation time", (launchDay.isAfter(today)));
+                require.using("The output BoardingTicket state should have a launching date later then the creation time", launchDay.isAfter(today));
                 return null;
             });
         }else if(commandData instanceof BoardingTicketContract.Commands.RedeemTicket) {
@@ -41,7 +41,7 @@ public class BoardingTicketContract implements Contract {
                 LocalDateTime current = LocalDateTime.now();
                 LocalDate today = LocalDate.of(current.getYear(),current.getMonth(),current.getDayOfMonth());
                 LocalDate launchDay = output.getlaunchDate();
-                require.using("The output BoardingTicket state should have a launching date later then the creation time", (launchDay.isAfter(today)));
+                require.using("The output BoardingTicket state should have a launching date later then the creation time", launchDay.isAfter(today));
                 return null;
             });
         }

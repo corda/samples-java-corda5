@@ -75,7 +75,7 @@ public class CreateBoardingTicket {
                 throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"launchDate\" missing.");
             else
                 launchDate = LocalDate.parse(parametersMap.get("launchDate"));
-            
+          
             //Building the output MarsVoucher state
             Party marsExpress = flowIdentity.getOurIdentity();
             BoardingTicket ticket = new BoardingTicket(ticketDescription,marsExpress,launchDate);
@@ -86,6 +86,7 @@ public class CreateBoardingTicket {
                     .setNotary(notary)
                     .addOutputState(ticket, BoardingTicketContract.ID)
                     .addCommand(txCommand);
+
 
             // Verify that the transaction is valid.
             transactionBuilder.verify();
