@@ -10,8 +10,10 @@ import net.corda.v5.application.flows.flowservices.FlowIdentity;
 import net.corda.v5.application.identity.CordaX500Name;
 import net.corda.v5.application.identity.Party;
 import net.corda.v5.application.injection.CordaInject;
+import net.corda.v5.application.services.IdentityService;
 import net.corda.v5.application.services.json.JsonMarshallingService;
 import net.corda.v5.base.annotations.Suspendable;
+import net.corda.v5.ledger.contracts.Command;
 import net.corda.v5.ledger.services.NotaryLookupService;
 import net.corda.v5.ledger.transactions.SignedTransaction;
 import net.corda.v5.ledger.transactions.SignedTransactionDigest;
@@ -28,7 +30,7 @@ public class CreateBoardingTicket {
 
     @InitiatingFlow
     @StartableByRPC
-    public static class CreateBoardingTicketInitiator extends FlowLogic<SignedTransactionDigest> {
+    public static class CreateBoardingTicketInitiator implements Flow<SignedTransactionDigest> {
 
         //Node Injectables
         @CordaInject
@@ -73,16 +75,18 @@ public class CreateBoardingTicket {
                 throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"launchDate\" missing.");
             else
                 launchDate = LocalDate.parse(parametersMap.get("launchDate"));
-
+          
             //Building the output MarsVoucher state
             Party marsExpress = flowIdentity.getOurIdentity();
             BoardingTicket ticket = new BoardingTicket(ticketDescription,marsExpress,launchDate);
+            Command txCommand = new Command(new BoardingTicketContract.Commands.CreateTicket(), Arrays.asList(marsExpress.getOwningKey()));
 
             //Build transaction
             TransactionBuilder transactionBuilder = transactionBuilderFactory.create()
                     .setNotary(notary)
                     .addOutputState(ticket, BoardingTicketContract.ID)
-                    .addCommand(new BoardingTicketContract.Commands.CreateTicket(), Arrays.asList(marsExpress.getOwningKey()));
+                    .addCommand(txCommand);
+
 
             // Verify that the transaction is valid.
             transactionBuilder.verify();
@@ -98,6 +102,17 @@ public class CreateBoardingTicket {
             return new SignedTransactionDigest(notarisedTx.getId(),
                     Collections.singletonList(jsonMarshallingService.formatJson(notarisedTx.getTx().getOutputStates().get(0))),
                     notarisedTx.getSigs());
+        }
+        public FlowEngine getFlowEngine() {
+            return flowEngine;
+        }
+
+        public NotaryLookupService getNotaryLookup() {
+            return this.notaryLookupService;
+        }
+
+        public JsonMarshallingService getJsonMarshallingService() {
+            return jsonMarshallingService;
         }
     }
 

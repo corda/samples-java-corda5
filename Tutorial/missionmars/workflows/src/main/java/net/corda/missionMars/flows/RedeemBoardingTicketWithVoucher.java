@@ -37,7 +37,7 @@ public class RedeemBoardingTicketWithVoucher {
 
     @InitiatingFlow
     @StartableByRPC
-    public static class RedeemBoardingTicketWithVoucherInitiator extends FlowLogic<SignedTransactionDigest> {
+    public static class RedeemBoardingTicketWithVoucherInitiator implements Flow<SignedTransactionDigest> {
 
         //Node Injectables
         @CordaInject

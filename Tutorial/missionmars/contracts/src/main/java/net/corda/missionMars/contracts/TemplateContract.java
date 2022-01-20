@@ -13,7 +13,7 @@ import static net.corda.v5.ledger.contracts.ContractsDSL.requireThat;
 // ************
 public class TemplateContract implements Contract {
     // This is used to identify our contract when building a transaction.
-    public static final String ID = "net.corda.missionMars.contracts.TemplateContract";
+    public static final String ID = TemplateContract.class.getCanonicalName();
 
     // A transaction is valid if the verify() function of the contract of all the transaction's input and output states
     // does not throw an exception.

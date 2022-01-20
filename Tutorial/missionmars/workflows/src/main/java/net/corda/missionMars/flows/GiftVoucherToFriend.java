@@ -37,7 +37,7 @@ public class GiftVoucherToFriend {
 
     @InitiatingFlow
     @StartableByRPC
-    public static class GiftVoucherToFriendInitiator extends FlowLogic<SignedTransactionDigest> {
+    public static class GiftVoucherToFriendInitiator implements Flow<SignedTransactionDigest> {
 
         //Node Injectables
         @CordaInject
@@ -82,7 +82,7 @@ public class GiftVoucherToFriend {
             //RecipientParty
             CordaX500Name holder;
             if(!parametersMap.containsKey("holder"))
-                throw new BadRpcStartFlowRequestException("BoardingTicket State Parameter \"holder\" missing.");
+                throw new BadRpcStartFlowRequestException("MarsVoucher State Parameter \"holder\" missing.");
             else
                 holder = CordaX500Name.parse(parametersMap.get("holder"));
             Party recipientParty;
@@ -99,6 +99,10 @@ public class GiftVoucherToFriend {
             );
             StateAndRef<MarsVoucher> marsVoucherStateAndRef = (StateAndRef<MarsVoucher>) cursor.poll(100, Duration.ofSeconds(20)).getValues().get(0);
             MarsVoucher inputMarsVoucher = marsVoucherStateAndRef.getState().getData();
+
+            //Check if the initiator is indeed the holder of the mars voucher
+            if(!(inputMarsVoucher.getHolder().getOwningKey().equals(flowIdentity.getOurIdentity().getOwningKey())))
+                throw new FlowException("Only the voucher current holder can initiate a gifting transaction");
 
             //Building the output
             MarsVoucher outputMarsVoucher = inputMarsVoucher.changeOwner(recipientParty);
@@ -126,11 +130,11 @@ public class GiftVoucherToFriend {
 
             for (AbstractParty participant: inputMarsVoucher.getParticipants()) {
                 Party partyToInitiateFlow = (Party) participant;
-                if (!partyToInitiateFlow.getOwningKey().equals(getOurIdentity().getOwningKey())) {
-                    receiverSession.add(initiateFlow(partyToInitiateFlow));
+                if (!partyToInitiateFlow.getOwningKey().equals(flowIdentity.getOurIdentity().getOwningKey())) {
+                    receiverSession.add(flowMessaging.initiateFlow(partyToInitiateFlow));
                 }
             }
-            receiverSession.add(initiateFlow(recipientParty));
+            receiverSession.add(flowMessaging.initiateFlow(recipientParty));
 
             SignedTransaction fullySignedTx = flowEngine.subFlow(
                     new CollectSignaturesFlow(partialSignedTx, receiverSession));
