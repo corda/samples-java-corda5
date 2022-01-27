@@ -1,7 +1,6 @@
 package net.corda.missionMars.flows;
 
 import net.corda.missionMars.contracts.MarsVoucherContract;
-import net.corda.missionMars.contracts.TemplateContract;
 import net.corda.missionMars.states.MarsVoucher;
 import net.corda.systemflows.CollectSignaturesFlow;
 import net.corda.systemflows.FinalityFlow;
@@ -24,7 +23,6 @@ import net.corda.v5.ledger.transactions.SignedTransaction;
 import net.corda.v5.ledger.transactions.SignedTransactionDigest;
 import net.corda.v5.ledger.transactions.TransactionBuilder;
 import net.corda.v5.ledger.transactions.TransactionBuilderFactory;
-import net.corda.v5.legacyapi.flows.FlowLogic;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;

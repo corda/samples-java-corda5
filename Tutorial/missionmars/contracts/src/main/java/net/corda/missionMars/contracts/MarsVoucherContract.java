@@ -1,7 +1,6 @@
 package net.corda.missionMars.contracts;
 
 import net.corda.missionMars.states.MarsVoucher;
-import net.corda.missionMars.states.TemplateState;
 import net.corda.v5.ledger.contracts.CommandData;
 import net.corda.v5.ledger.contracts.Contract;
 import net.corda.v5.ledger.transactions.LedgerTransaction;
